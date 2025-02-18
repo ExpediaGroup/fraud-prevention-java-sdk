@@ -63,21 +63,21 @@ import java.util.concurrent.CompletableFuture
 * Fraud & Risk APIs to detect fraud
 */
 
-class Fraudpreventionv2Client private constructor(clientConfiguration: ExpediaGroupClientConfiguration) : ExpediaGroupClient("fraudpreventionv2", clientConfiguration) {
+class FraudPreventionV2Client private constructor(clientConfiguration: ExpediaGroupClientConfiguration) : ExpediaGroupClient("fraudpreventionv2", clientConfiguration) {
     class Builder : ExpediaGroupClient.Builder<Builder>() {
         override fun build() =
-            Fraudpreventionv2Client(
+            FraudPreventionV2Client(
                 ExpediaGroupClientConfiguration(key, secret, endpoint, requestTimeout, connectionTimeout, socketTimeout, maskedLoggingHeaders, maskedLoggingBodyFields, null, authEndpoint)
             )
     }
 
     class BuilderWithHttpClient() : ExpediaGroupClient.BuilderWithHttpClient<BuilderWithHttpClient>() {
-        override fun build(): Fraudpreventionv2Client {
+        override fun build(): FraudPreventionV2Client {
             if (okHttpClient == null) {
                 throw ExpediaGroupConfigurationException(getMissingRequiredConfigurationMessage(ConfigurationName.OKHTTP_CLIENT))
             }
 
-            return Fraudpreventionv2Client(
+            return FraudPreventionV2Client(
                 ExpediaGroupClientConfiguration(key, secret, endpoint, null, null, null, maskedLoggingHeaders, maskedLoggingBodyFields, okHttpClient, authEndpoint)
             )
         }
