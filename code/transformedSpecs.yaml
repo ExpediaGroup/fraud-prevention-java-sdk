@@ -1910,6 +1910,8 @@ components:
         * `INTERNET_BANK_PAYMENT`: `InternetBankPayment`
 
         * `DIRECT_DEBIT`: `DirectDebit`
+
+        * `THIRD_PARTY_PROVIDER `: `THIRD_PARTY_PROVIDER ``
       type: object
       required:
         - brand
@@ -1926,6 +1928,7 @@ components:
           GIFT_CARD: "#/components/schemas/GiftCard"
           INTERNET_BANK_PAYMENT: "#/components/schemas/InternetBankPayment"
           DIRECT_DEBIT: "#/components/schemas/DirectDebit"
+          THIRD_PARTY_PROVIDER: "#/components/schemas/ThirdPartyProvider"
       properties:
         brand:
           description: >
@@ -2067,6 +2070,11 @@ components:
             * `INTER_COMPANY`
 
             * `SEPA_ELV`
+
+
+            'brand' with 'ThirdPartyProvider' payment_type is an enum value with following:
+
+            * `STRIPE`
           type: string
           enum:
             - AMERICAN_EXPRESS
@@ -2121,6 +2129,7 @@ components:
             - ELV
             - INTER_COMPANY
             - SEPA_ELV
+            - STRIPE
         method:
           $ref: "#/components/schemas/PaymentMethod"
         reason:
@@ -2313,7 +2322,8 @@ components:
       title: PaymentMethod
       description: "The payment method used at the time of purchase for the
         transaction. Supported `method`'s are: `CREDIT_CARD`, `PAYPAL`,
-        `POINTS`, `GIFT_CARD`, `INTERNET_BANK_PAYMENT`, `DIRECT_DEBIT`."
+        `POINTS`, `GIFT_CARD`, `INTERNET_BANK_PAYMENT`, `DIRECT_DEBIT`,
+        `THIRD_PARTY_PROVIDER`."
       type: string
       enum:
         - CREDIT_CARD
@@ -2322,6 +2332,7 @@ components:
         - GIFT_CARD
         - INTERNET_BANK_PAYMENT
         - DIRECT_DEBIT
+        - THIRD_PARTY_PROVIDER
     TravelProductType:
       title: TravelProductType
       description: Type of product.
@@ -2626,6 +2637,50 @@ components:
               maxItems: 20
               items:
                 $ref: "#/components/schemas/Telephone"
+    ThirdPartyProvider:
+      title: ThirdPartyProvider
+      description: >
+        The third party payment provider used for the transaction. Supported
+        third party payment platforms are: `Stripe`
+      type: object
+      allOf:
+        - $ref: "#/components/schemas/Payment"
+        - type: object
+          required:
+            - payment_id
+            - provider_details
+          properties:
+            provider_details:
+              $ref: "#/components/schemas/ThirdPartyProviderDetails"
+            payment_id:
+              description: Unique payment id assigned by the third party payment provider.
+              type: string
+              maxLength: 200
+    ThirdPartyProviderDetails:
+      title: ThirdPartyProviderDetails
+      description: Third party payment provider details
+      type: object
+      required:
+        - payer_name
+        - last_four_digits
+      properties:
+        payment_type:
+          description: Payment type,e.g. card, bank, etc.
+          type: string
+          maxLength: 200
+        payer_name:
+          description: Payer Name from card/bank account.
+          type: string
+          maxLength: 200
+        last_four_digits:
+          description: Last four digits of card/account number.
+          type: string
+          maxLength: 4
+        extensions:
+          type: object
+          additionalProperties:
+            type: string
+            description: A key-value pair map to hold additional attributes.
     Name:
       title: Name
       description: Group of attributes intended to hold information about a customer
