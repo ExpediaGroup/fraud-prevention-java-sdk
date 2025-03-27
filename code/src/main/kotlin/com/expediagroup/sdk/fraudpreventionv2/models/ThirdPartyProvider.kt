@@ -39,21 +39,20 @@ import com.expediagroup.sdk.fraudpreventionv2.models.PaymentBillingAddress
 import com.expediagroup.sdk.fraudpreventionv2.models.PaymentMethod
 import com.expediagroup.sdk.fraudpreventionv2.models.PaymentReason
 import com.expediagroup.sdk.fraudpreventionv2.models.PaymentThreeDSCriteria
+import com.expediagroup.sdk.fraudpreventionv2.models.ThirdPartyProviderDetails
 import com.fasterxml.jackson.annotation.JsonProperty
 import org.hibernate.validator.constraints.Length
 import org.hibernate.validator.messageinterpolation.ParameterMessageInterpolator
 import javax.validation.Valid
 import javax.validation.Validation
 import javax.validation.constraints.NotNull
-import javax.validation.constraints.Pattern
 
 /**
- *
- * @param cardNumber Gift card number.
- * @param cardHolderName The name of gift card holder.
- * @param pin The PIN of gift card.
+ * The third party payment provider used for the transaction. Supported third party payment platforms are: `Stripe`
+ * @param providerDetails
+ * @param paymentId Unique payment id assigned by the third party payment provider.
  */
-data class GiftCard(
+data class ThirdPartyProvider(
     // The `brand` field value is the payment brand used for payment on this transaction. For credit card payment method ensure attributes mentioned in dictionary below are set to corresponding values only. Ensure to comply with the naming standards provided in below dictionary. For example, some Payment processors use “Japan Credit Bureau” but “JCB” should be used when calling Fraud API. Incorrect `brand` - `card_type` combination will result in data quality issues and result in degraded risk recommendation. 'brand' is an enum value with the following mapping with CreditCard 'card_type' attribute: *       brand                 :      card_type * ------------------------------------------------------- * `AMERICAN_EXPRESS`          : `AMERICAN_EXPRESS` * `DINERS_CLUB_INTERNATIONAL` : `DINERS_CLUB` * `BC_CARD`                   : `DINERS_CLUB` * `DISCOVER`                  : `DISCOVER` * `BC_CARD`                   : `DISCOVER` * `DINERS_CLUB_INTERNATIONAL` : `DISCOVER` * `JCB`                       : `DISCOVER` * `JCB`                       : `JCB` * `MASTER_CARD`               : `MASTER_CARD` * `MAESTRO`                   : `MASTER_CARD` * `POSTEPAY_MASTERCARD`       : `MASTER_CARD` * `SOLO`                      : `SOLO` * `SWITCH`                    : `SWITCH` * `MAESTRO`                   : `MAESTRO` * `CHINA_UNION_PAY`           : `CHINA_UNION_PAY` * `UATP`                      : `UATP` * `UATP_SUPPLY`               : `UATP` * `AIR_PLUS`                  : `UATP` * `UA_PASS_PLUS`              : `UATP` * `VISA`                      : `VISA` * `VISA_DELTA`                : `VISA` * `VISA_ELECTRON`             : `VISA` * `CARTA_SI`                  : `VISA` * `CARTE_BLEUE`               : `VISA` * `VISA_DANKORT`              : `VISA` * `POSTEPAY_VISA_ELECTRON`    : `VISA` * `PAYPAL`                    :  'brand' with 'Points' payment_type is an enum value with following: * `EXPEDIA_REWARDS` * `AMEX_POINTS` * `BANK_OF_AMERICA_REWARDS` * `DISCOVER_POINTS` * `MASTER_CARD_POINTS` * `CITI_THANK_YOU_POINTS` * `MERRILL_LYNCH_REWARDS` * `WELLS_FARGO_POINTS` * `DELTA_SKY_MILES` * `UNITED_POINTS` * `DISCOVER_MILES` * `ALASKA_MILES` * `RBC_REWARDS` * `BILT_REWARDS` * `ORBUCKS` * `CHEAP_CASH` * `BONUS_PLUS` * `ULTIMATE_REWARDS`  'brand' with 'GiftCard' payment_type is an enum value with following: * `GIFT_CARD`  'brand' with 'InternetBankPayment' payment_type is an enum value with following: * `IBP` * `LOCAL_DEBIT_CARD` * `SOFORT` * `YANDEX` * `WEB_MONEY` * `QIWI` * `BITCOIN`  'brand' with 'DirectDebit' payment_type is an enum value with following: * `ELV` * `INTER_COMPANY` * `SEPA_ELV`  'brand' with 'ThirdPartyProvider' payment_type is an enum value with following: * `STRIPE`
     @JsonProperty("brand")
     @field:NotNull
@@ -72,26 +71,16 @@ data class GiftCard(
     @field:NotNull
     @field:Valid
     override val billingEmailAddress: kotlin.String,
-    // Gift card number.
-    @JsonProperty("card_number")
-    @field:Pattern(regexp = "^[0-9A-Za-z]{4,16}$")
-    @field:Length(max = 16)
+    @JsonProperty("provider_details")
     @field:NotNull
     @field:Valid
-    val cardNumber: kotlin.String,
-    // The name of gift card holder.
-    @JsonProperty("card_holder_name")
+    val providerDetails: ThirdPartyProviderDetails,
+    // Unique payment id assigned by the third party payment provider.
+    @JsonProperty("payment_id")
     @field:Length(max = 200)
     @field:NotNull
     @field:Valid
-    val cardHolderName: kotlin.String,
-    // The PIN of gift card.
-    @JsonProperty("pin")
-    @field:Pattern(regexp = "^[0-9]{4,8}$")
-    @field:Length(max = 8)
-    @field:NotNull
-    @field:Valid
-    val pin: kotlin.String,
+    val paymentId: kotlin.String,
     @JsonProperty("reason")
     @field:Valid
     override val reason: PaymentReason? = null,
@@ -113,7 +102,7 @@ data class GiftCard(
     override val extensions: kotlin.collections.Map<kotlin.String, kotlin.String>? = null
 ) : Payment {
     @JsonProperty("method")
-    override val method: PaymentMethod = PaymentMethod.GIFT_CARD
+    override val method: PaymentMethod = PaymentMethod.THIRD_PARTY_PROVIDER
 
     companion object {
         @JvmStatic
@@ -125,9 +114,8 @@ data class GiftCard(
         private var billingName: Name? = null,
         private var billingAddress: PaymentBillingAddress? = null,
         private var billingEmailAddress: kotlin.String? = null,
-        private var cardNumber: kotlin.String? = null,
-        private var cardHolderName: kotlin.String? = null,
-        private var pin: kotlin.String? = null,
+        private var providerDetails: ThirdPartyProviderDetails? = null,
+        private var paymentId: kotlin.String? = null,
         private var reason: PaymentReason? = null,
         private var authorizedAmount: Amount? = null,
         private var verifiedAmount: Amount? = null,
@@ -143,11 +131,9 @@ data class GiftCard(
 
         fun billingEmailAddress(billingEmailAddress: kotlin.String) = apply { this.billingEmailAddress = billingEmailAddress }
 
-        fun cardNumber(cardNumber: kotlin.String) = apply { this.cardNumber = cardNumber }
+        fun providerDetails(providerDetails: ThirdPartyProviderDetails) = apply { this.providerDetails = providerDetails }
 
-        fun cardHolderName(cardHolderName: kotlin.String) = apply { this.cardHolderName = cardHolderName }
-
-        fun pin(pin: kotlin.String) = apply { this.pin = pin }
+        fun paymentId(paymentId: kotlin.String) = apply { this.paymentId = paymentId }
 
         fun reason(reason: PaymentReason?) = apply { this.reason = reason }
 
@@ -161,16 +147,15 @@ data class GiftCard(
 
         fun extensions(extensions: kotlin.collections.Map<kotlin.String, kotlin.String>?) = apply { this.extensions = extensions }
 
-        fun build(): GiftCard {
+        fun build(): ThirdPartyProvider {
             val instance =
-                GiftCard(
+                ThirdPartyProvider(
                     brand = brand!!,
                     billingName = billingName!!,
                     billingAddress = billingAddress!!,
                     billingEmailAddress = billingEmailAddress!!,
-                    cardNumber = cardNumber!!,
-                    cardHolderName = cardHolderName!!,
-                    pin = pin!!,
+                    providerDetails = providerDetails!!,
+                    paymentId = paymentId!!,
                     reason = reason,
                     authorizedAmount = authorizedAmount,
                     verifiedAmount = verifiedAmount,
@@ -184,7 +169,7 @@ data class GiftCard(
             return instance
         }
 
-        private fun validate(instance: GiftCard) {
+        private fun validate(instance: ThirdPartyProvider) {
             val validator =
                 Validation
                     .byDefaultProvider()
@@ -209,9 +194,8 @@ data class GiftCard(
             billingName = billingName!!,
             billingAddress = billingAddress!!,
             billingEmailAddress = billingEmailAddress!!,
-            cardNumber = cardNumber!!,
-            cardHolderName = cardHolderName!!,
-            pin = pin!!,
+            providerDetails = providerDetails!!,
+            paymentId = paymentId!!,
             reason = reason,
             authorizedAmount = authorizedAmount,
             verifiedAmount = verifiedAmount,

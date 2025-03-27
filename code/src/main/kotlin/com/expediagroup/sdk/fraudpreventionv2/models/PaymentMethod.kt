@@ -33,8 +33,8 @@ package com.expediagroup.sdk.fraudpreventionv2.models
 import com.fasterxml.jackson.annotation.JsonProperty
 
 /**
-* The payment method used at the time of purchase for the transaction. Supported `method`'s are: `CREDIT_CARD`, `PAYPAL`, `POINTS`, `GIFT_CARD`, `INTERNET_BANK_PAYMENT`, `DIRECT_DEBIT`.
-* Values: CREDIT_CARD,PAYPAL,POINTS,GIFT_CARD,INTERNET_BANK_PAYMENT,DIRECT_DEBIT
+* The payment method used at the time of purchase for the transaction. Supported `method`'s are: `CREDIT_CARD`, `PAYPAL`, `POINTS`, `GIFT_CARD`, `INTERNET_BANK_PAYMENT`, `DIRECT_DEBIT`, `THIRD_PARTY_PROVIDER`.
+* Values: CREDIT_CARD,PAYPAL,POINTS,GIFT_CARD,INTERNET_BANK_PAYMENT,DIRECT_DEBIT,THIRD_PARTY_PROVIDER
 */
 enum class PaymentMethod(val value: kotlin.String) {
     @JsonProperty("CREDIT_CARD")
@@ -53,5 +53,8 @@ enum class PaymentMethod(val value: kotlin.String) {
     INTERNET_BANK_PAYMENT("INTERNET_BANK_PAYMENT"),
 
     @JsonProperty("DIRECT_DEBIT")
-    DIRECT_DEBIT("DIRECT_DEBIT")
+    DIRECT_DEBIT("DIRECT_DEBIT"),
+
+    @JsonProperty("THIRD_PARTY_PROVIDER")
+    THIRD_PARTY_PROVIDER("THIRD_PARTY_PROVIDER")
 }
