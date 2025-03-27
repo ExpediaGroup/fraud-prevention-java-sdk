@@ -18,7 +18,7 @@ tags:
   - name: AccountScreen
   - name: AccountUpdate
 paths:
-  /order/purchase/screen:
+  /fraud-prevention/v2/order/purchase/screen:
     post:
       tags:
         - OrderPurchaseScreen
@@ -102,7 +102,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/GatewayTimeoutError'
-  /order/purchase/update:
+  /fraud-prevention/v2/order/purchase/update:
     post:
       tags:
         - OrderPurchaseUpdate
@@ -241,7 +241,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/GatewayTimeoutError'
-  /account/screen:
+  /fraud-prevention/v2/account/screen:
     post:
       tags:
         - AccountScreen
@@ -326,7 +326,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/GatewayTimeoutError'
-  /account/update:
+  /fraud-prevention/v2/account/update:
     post:
       tags:
         - AccountUpdate
