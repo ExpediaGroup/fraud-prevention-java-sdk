@@ -109,10 +109,14 @@ paths:
         changed.
 
 
-        For example, if the customer cancels the reservation, changes reservation in any way, or adds additional products or travelers to the reservation, the Order Purchase Update API is called to notify Expedia Group about the change.
+        For example, if the customer cancels the reservation, changes
+        reservation in any way, or adds additional products or travelers to the
+        reservation, the Order Purchase Update API is called to notify Expedia
+        Group about the change.
 
 
-        The Order Purchase Update API is also called when the merchant cancels or changes an order based on a Fraud recommendation.
+        The Order Purchase Update API is also called when the merchant cancels
+        or changes an order based on a Fraud recommendation.
       summary: Send an update for a transaction
       operationId: updateOrderPurchase
       security:
@@ -544,7 +548,10 @@ components:
         error and retrying the same request after a certain delay could
         eventually result in success.
 
-        There will be a Retry-After HTTP header in API response specifying how long to wait to retry the request. If there is no Retry-After HTTP header then retry can happen immediately. If the error persists after retrying with delay, please reach out to <support team>."
+        There will be a Retry-After HTTP header in API response specifying how
+        long to wait to retry the request. If there is no Retry-After HTTP
+        header then retry can happen immediately. If the error persists after
+        retrying with delay, please reach out to <support team>."
       example:
         code: RETRYABLE_ORDER_PURCHASE_SCREEN_FAILURE
         message: A temporary internal error occurred. You can safely retry your call
@@ -558,7 +565,10 @@ components:
         error and retrying the same request after a certain delay could
         eventually result in success.
 
-        There will be a Retry-After HTTP header in API response specifying how long to wait to retry the request. If there is no Retry-After HTTP header then retry can happen immediately. If the error persists after retrying with delay, please reach out to <support team>."
+        There will be a Retry-After HTTP header in API response specifying how
+        long to wait to retry the request. If there is no Retry-After HTTP
+        header then retry can happen immediately. If the error persists after
+        retrying with delay, please reach out to <support team>."
       example:
         code: RETRYABLE_ORDER_PURCHASE_UPDATE_FAILURE
         message: A temporary internal error occurred. You can safely retry your call
@@ -674,11 +684,14 @@ components:
                 when it goes from the merchant's bank through to the
                 cardholder's bank.
 
-                `acquirer_reference_number` is a required field only if `order_status` = `COMPLETED`
+                `acquirer_reference_number` is a required field only if
+                `order_status` = `COMPLETED`
 
-                Typically, merchants can get this number from their payment processors.
+                Typically, merchants can get this number from their payment
+                processors.
 
-                This number is used when dealing with disputes/chargebacks on original transactions.
+                This number is used when dealing with disputes/chargebacks on
+                original transactions.
               type: string
               maxLength: 200
             cancellation_reason:
@@ -815,9 +828,11 @@ components:
             A unique number that tags a credit or debit card transaction when it
             goes from the merchant's bank through to the cardholder's bank.
 
-            Typically, merchants can get this number from their payment processors.
+            Typically, merchants can get this number from their payment
+            processors.
 
-            This number is used when dealing with disputes/chargebacks on original transactions.
+            This number is used when dealing with disputes/chargebacks on
+            original transactions.
           type: string
           maxLength: 200
         settlement_id:
@@ -893,23 +908,32 @@ components:
       description: >
         Defines the current state of the Order.
 
-        Generally, OrderPurchaseScreenRequest is followed by an OrderUpdate reflecting the change in current order status. From `IN_PROGRESS` to any of below possible values:
+        Generally, OrderPurchaseScreenRequest is followed by an OrderUpdate
+        reflecting the change in current order status. From `IN_PROGRESS` to any
+        of below possible values:
 
-        * `COMPLETED` is used when the order has been processed fully. For example, inventory has been reserved, and the payment has been settled.
+        * `COMPLETED` is used when the order has been processed fully. For
+        example, inventory has been reserved, and the payment has been settled.
 
         * `CHANGE_COMPLETED` is like `COMPLETED` but on a changed order.
 
-        * `CANCELLED` is used when the order is cancelled. This could be acustomer initiated cancel or based on Fraud recommendation.
+        * `CANCELLED` is used when the order is cancelled. This could be
+        acustomer initiated cancel or based on Fraud recommendation.
 
-        * `FAILED` is used when order failed due to any errors on Partner system. This could be followed by another OrderUpdate call with any `order_status` once the order is recovered, abandoned, or cancelled.
+        * `FAILED` is used when order failed due to any errors on Partner
+        system. This could be followed by another OrderUpdate call with any
+        `order_status` once the order is recovered, abandoned, or cancelled.
 
         * `CHANGE_FAILED` is like `FAILED` but on a changed order.
 
         *
 
-        * `CHANGE_COMPLETED` or `CHANGE_FAILED` are applicable if OrderPurchaseScreen Fraud API was called via a change in order which is through `transaction.transaction_details.order_type` = `CHANGE`
+        * `CHANGE_COMPLETED` or `CHANGE_FAILED` are applicable if
+        OrderPurchaseScreen Fraud API was called via a change in order which is
+        through `transaction.transaction_details.order_type` = `CHANGE`
 
-        * `COMPLETED` or `CANCELLED` order status indicates the completion of lifecycle on an order.
+        * `COMPLETED` or `CANCELLED` order status indicates the completion of
+        lifecycle on an order.
       type: string
       enum:
         - COMPLETED
@@ -1025,9 +1049,13 @@ components:
           description: >
             Status of the order:
 
-            * `IN_PROGRESS` is used when order has not processed fully. For example, inventory has not yet been reserved, or payment has not yet been settled.
+            * `IN_PROGRESS` is used when order has not processed fully. For
+            example, inventory has not yet been reserved, or payment has not yet
+            been settled.
 
-            * `COMPLETED` is used when an order has been processed fully. For example, inventory has been reserved, and the payment has been settled.
+            * `COMPLETED` is used when an order has been processed fully. For
+            example, inventory has been reserved, and the payment has been
+            settled.
           type: string
           enum:
             - IN_PROGRESS
@@ -1040,7 +1068,12 @@ components:
             `CREATE` - Initial type of a brand new order.
 
 
-            `CHANGE` - If a `OrderPurchaseScreenRequest` has already been submitted for the initial booking with `order_type = CREATE`, but has now been modified and partner wishes to resubmit for Fraud screening then the `order_type = CHANGE`. Examples of changes that are supported are changes made to `check-in/checkout dates` or `price of a TravelProduct`.
+            `CHANGE` - If a `OrderPurchaseScreenRequest` has already been
+            submitted for the initial booking with `order_type = CREATE`, but
+            has now been modified and partner wishes to resubmit for Fraud
+            screening then the `order_type = CHANGE`. Examples of changes that
+            are supported are changes made to `check-in/checkout dates` or
+            `price of a TravelProduct`.
           type: string
           enum:
             - CREATE
@@ -1089,7 +1122,8 @@ components:
             values are:
 
 
-            -`GUEST` - Applicable if the partner maintains record to distinguish whether the transaction was booked via a guest account.
+            -`GUEST` - Applicable if the partner maintains record to distinguish
+            whether the transaction was booked via a guest account.
 
 
             -`STANDARD` - Default account type.
@@ -1246,9 +1280,11 @@ components:
           description: >
             Type of inventory.
 
-            Ensure attributes mentioned in dictionary below are set to corresponding values only.
+            Ensure attributes mentioned in dictionary below are set to
+            corresponding values only.
 
-            `inventory_type` has the following mapping with TravelProduct `type` attribute:
+            `inventory_type` has the following mapping with TravelProduct `type`
+            attribute:
 
             *       inventory_type            :      type
 
@@ -1274,7 +1310,8 @@ components:
             Identifies the business model through which the supply is being
             sold. Merchant/Agency.
 
-            * `MERCHANT` is used when Partner is the merchant of record for this order.
+            * `MERCHANT` is used when Partner is the merchant of record for this
+            order.
 
             * `AGENCY` is used when this order is through an agency booking.
           type: string
@@ -1286,23 +1323,35 @@ components:
             List of travelerGuids who are part of the traveling party on the
             order for the product.
 
-            Information for each product and its required travelers should be provided in the API request.
+            Information for each product and its required travelers should be
+            provided in the API request.
 
-            If the product booking does not require accompanying quest information then that does not need to be provided in the API request.
+            If the product booking does not require accompanying quest
+            information then that does not need to be provided in the API
+            request.
 
             Example:
 
-            * For Air products, all travelers' details are required to complete the booking.
+            * For Air products, all travelers' details are required to complete
+            the booking.
 
-            * For Hotel products, typically the details on the person checking-in is required.
+            * For Hotel products, typically the details on the person
+            checking-in is required.
 
-            * For Car products, typically only the primary driver information is required.
+            * For Car products, typically only the primary driver information is
+            required.
 
-            If multiple traveler details are in the itinerary, this structure allows to fill up traveler details once in the `travelers` section, and then associate individual products to the respective travelers.
+            If multiple traveler details are in the itinerary, this structure
+            allows to fill up traveler details once in the `travelers` section,
+            and then associate individual products to the respective travelers.
 
-            This association is made using `traveler_id` field. A GUID can be generated for each object in the `travelers` section. The same GUID can be provided in the `traveler_references` below.
+            This association is made using `traveler_id` field. A GUID can be
+            generated for each object in the `travelers` section. The same GUID
+            can be provided in the `traveler_references` below.
 
-            The `travelers` array should have at least one `traveler` object, and each `traveler` object should have a `traveler_id` which is not necessarily an account id.
+            The `travelers` array should have at least one `traveler` object,
+            and each `traveler` object should have a `traveler_id` which is not
+            necessarily an account id.
 
             Example:
 
@@ -1342,9 +1391,11 @@ components:
 
             *   [GUID1]
 
-            * The example above demonstrates the association of travelers with various products.
+            * The example above demonstrates the association of travelers with
+            various products.
 
-            * All three travelers (A, B, and C) are associated with the Air product.
+            * All three travelers (A, B, and C) are associated with the Air
+            product.
 
             * Traveler A is associated with the Hotel and Activity products.
 
@@ -1396,7 +1447,8 @@ components:
                 The type of route or itinerary for the Rail product, indicating
                 the travel arrangement and pattern. Possible values are:
 
-                - `MULTIPLE_DESTINATIONS` - The Rail product includes multiple destinations in its itinerary.
+                - `MULTIPLE_DESTINATIONS` - The Rail product includes multiple
+                destinations in its itinerary.
 
                 - `ONE_WAY` - The Rail product represents a one-way journey.
 
@@ -1535,13 +1587,22 @@ components:
 
                 Possible category name values include:
 
-                * `Adventures`: This category includes activities such as hiking, zip-lining, rock climbing, bungee jumping, and other adventurous pursuits.
+                * `Adventures`: This category includes activities such as
+                hiking, zip-lining, rock climbing, bungee jumping, and other
+                adventurous pursuits.
 
-                * `Air, Balloon & Helicopter Tours`: This category offers activities like hot air balloon rides, helicopter tours, and aerial sightseeing experiences.
+                * `Air, Balloon & Helicopter Tours`: This category offers
+                activities like hot air balloon rides, helicopter tours, and
+                aerial sightseeing experiences.
 
-                * `Cruises & Water Tours`: This includes options such as boat cruises, yacht tours, river rafting, snorkeling, and diving expeditions. 
+                * `Cruises & Water Tours`: This includes options such as boat
+                cruises, yacht tours, river rafting, snorkeling, and diving
+                expeditions. 
 
-                * `Nightlife`: This category encompasses activities like clubbing, pub crawls, live music events, and cultural performances. These activities predominantly occur during the evening or nighttime.
+                * `Nightlife`: This category encompasses activities like
+                clubbing, pub crawls, live music events, and cultural
+                performances. These activities predominantly occur during the
+                evening or nighttime.
               type: string
               maxLength: 200
               example: Tours & Sightseeing
@@ -1620,9 +1681,13 @@ components:
             This field indicates the nature or relationship of the vendor
             associated with a particular activity.
 
-            * `THIRD_PARTY`: This value indicates that the partner integrates with a third-party platform via APIs and ingests activities from them.
+            * `THIRD_PARTY`: This value indicates that the partner integrates
+            with a third-party platform via APIs and ingests activities from
+            them.
 
-            * `DIRECT`: This value signifies that the partner is a direct entity or provider associated with the organization or platform offering the activity.
+            * `DIRECT`: This value signifies that the partner is a direct entity
+            or provider associated with the organization or platform offering
+            the activity.
           type: string
           enum:
             - THIRD_PARTY
@@ -1935,13 +2000,18 @@ components:
             The `brand` field value is the payment brand used for payment on
             this transaction.
 
-            For credit card payment method ensure attributes mentioned in dictionary below are set to corresponding values only.
+            For credit card payment method ensure attributes mentioned in
+            dictionary below are set to corresponding values only.
 
-            Ensure to comply with the naming standards provided in below dictionary. For example, some Payment processors use “Japan Credit Bureau” but “JCB” should be used when calling Fraud API.
+            Ensure to comply with the naming standards provided in below
+            dictionary. For example, some Payment processors use “Japan Credit
+            Bureau” but “JCB” should be used when calling Fraud API.
 
-            Incorrect `brand` - `card_type` combination will result in data quality issues and result in degraded risk recommendation.
+            Incorrect `brand` - `card_type` combination will result in data
+            quality issues and result in degraded risk recommendation.
 
-            'brand' is an enum value with the following mapping with CreditCard 'card_type' attribute:
+            'brand' is an enum value with the following mapping with CreditCard
+            'card_type' attribute:
 
             *       brand                 :      card_type
 
@@ -2041,12 +2111,14 @@ components:
             * `ULTIMATE_REWARDS`
 
 
-            'brand' with 'GiftCard' payment_type is an enum value with following:
+            'brand' with 'GiftCard' payment_type is an enum value with
+            following:
 
             * `GIFT_CARD`
 
 
-            'brand' with 'InternetBankPayment' payment_type is an enum value with following:
+            'brand' with 'InternetBankPayment' payment_type is an enum value
+            with following:
 
             * `IBP`
 
@@ -2063,7 +2135,8 @@ components:
             * `BITCOIN`
 
 
-            'brand' with 'DirectDebit' payment_type is an enum value with following:
+            'brand' with 'DirectDebit' payment_type is an enum value with
+            following:
 
             * `ELV`
 
@@ -2072,7 +2145,8 @@ components:
             * `SEPA_ELV`
 
 
-            'brand' with 'ThirdPartyProvider' payment_type is an enum value with following:
+            'brand' with 'ThirdPartyProvider' payment_type is an enum value with
+            following:
 
             * `STRIPE`
           type: string
@@ -2231,9 +2305,11 @@ components:
 
         - `DEPOSIT` - The initial payment. Amount to be paid up front.
 
-        - `SCHEDULED` - The amount to be payment based on a schedule for the remaining portion of the booking amount.
+        - `SCHEDULED` - The amount to be payment based on a schedule for the
+        remaining portion of the booking amount.
 
-        - `SUBSEQUENT` - An additional amount paid that was not originally scheduled.
+        - `SUBSEQUENT` - An additional amount paid that was not originally
+        scheduled.
 
         - `DEFERRED`
       type: string
@@ -2370,13 +2446,18 @@ components:
                 The 'card_type' field value is an enum value which is associated
                 with the payment method of the specific payment instrument.
 
-                For credit card payment method ensure attributes mentioned in dictionary below are set to corresponding values only.
+                For credit card payment method ensure attributes mentioned in
+                dictionary below are set to corresponding values only.
 
-                Ensure to comply with the naming standards provided in below dictionary. For example, some Payment processors use “Japan Credit Bureau” but “JCB” should be used when calling Fraud API.
+                Ensure to comply with the naming standards provided in below
+                dictionary. For example, some Payment processors use “Japan
+                Credit Bureau” but “JCB” should be used when calling Fraud API.
 
-                Incorrect `card_type` - `brand` combination will result in data quality issues and result in degraded risk recommendation.
+                Incorrect `card_type` - `brand` combination will result in data
+                quality issues and result in degraded risk recommendation.
 
-                'card_type' is an enum value with the following mapping with Payment `brand` attribute:
+                'card_type' is an enum value with the following mapping with
+                Payment `brand` attribute:
 
                 *       card_type            :          brand
 
@@ -2619,7 +2700,8 @@ components:
                 The `mandate_type` is required if given `brand` as `SEPA_ELV`
                 under `DirectDebit`. 
 
-                It is used for the wire transfer or direct debit transaction whose `routing_number` could not be provided or not supported.  
+                It is used for the wire transfer or direct debit transaction
+                whose `routing_number` could not be provided or not supported.  
 
                 Allows values: 
 
@@ -2879,7 +2961,10 @@ components:
         error and retrying the same request after a certain delay could
         eventually result in success.
 
-        There will be a Retry-After HTTP header in API response specifying how long to wait to retry the request. If there is no Retry-After HTTP header then retry can happen immediately. If the error persists after retrying with delay, please reach out to <support team>."
+        There will be a Retry-After HTTP header in API response specifying how
+        long to wait to retry the request. If there is no Retry-After HTTP
+        header then retry can happen immediately. If the error persists after
+        retrying with delay, please reach out to <support team>."
       example:
         code: RETRYABLE_ACCOUNT_SCREEN_FAILURE
         message: A temporary internal error occurred. You can safely retry your call
@@ -2928,7 +3013,8 @@ components:
         The `type` field value is used as a discriminator, with the following
         mapping:
 
-        * `MULTI_FACTOR_AUTHENTICATION_UPDATE`: `MultiFactorAuthenticationUpdate`
+        * `MULTI_FACTOR_AUTHENTICATION_UPDATE`:
+        `MultiFactorAuthenticationUpdate`
 
         * `REMEDIATION_UPDATE`: `RemediationUpdate`
       discriminator:
@@ -2995,7 +3081,8 @@ components:
             The status of a user''s response to the Multi-Factor Authentication
             initiated by the Partner''s system to the user.'
 
-            - `SUCCESS` - Applicable if the user successfully passed the challenge.
+            - `SUCCESS` - Applicable if the user successfully passed the
+            challenge.
 
             - `ABANDON` - Applicable if the user did not complete the challenge.
 
@@ -3069,11 +3156,15 @@ components:
             The categorized remediation action initiated by the Partner''s
             system to a user. Possible values are:
 
-            - `PASSWORD_RESET` - Applicable if this event is the result of a password reset by the Partner''s system.
+            - `PASSWORD_RESET` - Applicable if this event is the result of a
+            password reset by the Partner''s system.
 
-            - `DISABLE_ACCOUNT` - Applicable if this event is the result of disabling an account by the Partner''s system.
+            - `DISABLE_ACCOUNT` - Applicable if this event is the result of
+            disabling an account by the Partner''s system.
 
-            - `TERMINATE_ALL_SESSIONS` - Applicable if this event is the result of terminating all active user sessions of an account by the Partner''s system.
+            - `TERMINATE_ALL_SESSIONS` - Applicable if this event is the result
+            of terminating all active user sessions of an account by the
+            Partner''s system.
           enum:
             - PASSWORD_RESET
             - DISABLE_ACCOUNT
@@ -3133,11 +3224,16 @@ components:
         Fraud recommendation for an account transaction. A recommendation can be
         ACCEPT, CHALLENGE, or REJECT.
 
-        - `ACCEPT` - Represents an account transaction where the user’’s account activity is accepted.
+        - `ACCEPT` - Represents an account transaction where the user’’s account
+        activity is accepted.
 
-        - `CHALLENGE` - Represents an account transaction that requires additional verification or challenges the user’’s identity (example: CAPTCHA, MULTI_FACTOR_AUTHENTICATION, etc).
+        - `CHALLENGE` - Represents an account transaction that requires
+        additional verification or challenges the user’’s identity (example:
+        CAPTCHA, MULTI_FACTOR_AUTHENTICATION, etc).
 
-        - `REJECT` - Represents a suspicious account transaction where the user’’s credentials or their behavior requires us to block the account activity.
+        - `REJECT` - Represents a suspicious account transaction where the
+        user’’s credentials or their behavior requires us to block the account
+        activity.
       enum:
         - ACCEPT
         - CHALLENGE
@@ -3190,9 +3286,11 @@ components:
             The categorized name of the page where a user initiated event is
             being evaluated.
 
-            - `LOGIN` - Applicable if the user initiated this account event from a login web page.
+            - `LOGIN` - Applicable if the user initiated this account event from
+            a login web page.
 
-            - `PASSWORD_RESET` - Applicable if the user initiated this account event from a password reset web page.
+            - `PASSWORD_RESET` - Applicable if the user initiated this account
+            event from a password reset web page.
           enum:
             - LOGIN
             - PASSWORD_RESET
@@ -3229,15 +3327,20 @@ components:
           description: >
             The categorized type of device used by a user. Possible values are:
 
-            - `WEBSITE` - Applicable if the user initiated this event from a web browser on a desktop computer.
+            - `WEBSITE` - Applicable if the user initiated this event from a web
+            browser on a desktop computer.
 
-            - `PHONE_WEB` - Applicable if the user initiated this event from a web browser on a phone.
+            - `PHONE_WEB` - Applicable if the user initiated this event from a
+            web browser on a phone.
 
-            - `TABLET_WEB` - Applicable if the user initiated this event from a web browser on a tablet.
+            - `TABLET_WEB` - Applicable if the user initiated this event from a
+            web browser on a tablet.
 
-            - `PHONE_APP` - Applicable if the user initiated this event from an app on a phone.
+            - `PHONE_APP` - Applicable if the user initiated this event from an
+            app on a phone.
 
-            - `TABLET_APP` - Applicable if the user initiated this event from an app on a tablet.
+            - `TABLET_APP` - Applicable if the user initiated this event from an
+            app on a tablet.
           enum:
             - WEBSITE
             - PHONE_WEB
@@ -3269,9 +3372,11 @@ components:
             Identifies the account type of a user''s account. Possible values
             are:
 
-            - `INDIVIDUAL` - Applicable if this account is for an individual traveler.
+            - `INDIVIDUAL` - Applicable if this account is for an individual
+            traveler.
 
-            - `BUSINESS` - Applicable if this account is for a business or organization account used by suppliers or Partners.
+            - `BUSINESS` - Applicable if this account is for a business or
+            organization account used by suppliers or Partners.
           enum:
             - INDIVIDUAL
             - BUSINESS
@@ -3283,9 +3388,11 @@ components:
 
             - `USER`: Basic account with no special privileges.
 
-            - `MANAGER`: Account with additional privileges, such as the ability to make bookings for others.
+            - `MANAGER`: Account with additional privileges, such as the ability
+            to make bookings for others.
 
-            - `ADMIN`: Account with higher privileges than a manager, including the ability to grant manager access to other users.
+            - `ADMIN`: Account with higher privileges than a manager, including
+            the ability to grant manager access to other users.
           enum:
             - USER
             - MANAGER
@@ -3406,33 +3513,20 @@ components:
           properties:
             authentication_type:
               type: string
-              description: >
+              description: |
                 The type of login authentication method used by a user.
-
                 For `authentication_type` ensure attributes mentioned in dictionary below are set to corresponding values only.
-
                 `authentication_type` is an enum value with the following mapping with `authentication_sub_type` attribute:
-
                 *       authentication_type       :     authentication_sub_type
-
                 * -------------------------------------------------------------------------------
-
                 * `CREDENTIALS`                         : `EMAIL`
-
                 * `CREDENTIALS`                         :
-
                 * `PASSWORD_RESET`                      : `EMAIL`
-
                 * `SINGLE_SIGN_ON`                      : `EMAIL`
-
                 * `MULTI_FACTOR_AUTHENTICATION`         : `EMAIL`
-
                 * `MULTI_FACTOR_AUTHENTICATION`         : `PHONE`
-
                 * `SOCIAL`                              : `GOOGLE`
-
                 * `SOCIAL`                              : `FACEBOOK`
-
                 * `SOCIAL`                              : `APPLE`
               enum:
                 - CREDENTIALS
@@ -3442,33 +3536,20 @@ components:
                 - MULTI_FACTOR_AUTHENTICATION
             authentication_sub_type:
               type: string
-              description: >
+              description: |
                 The sub type of login authentication method used by a user.
-
                 For `authentication_sub_type` ensure attributes mentioned in dictionary below are set to corresponding values only.
-
                 `authentication_sub_type` is an enum value with the following mapping with `authentication_type` attribute:
-
                 *       authentication_sub_type   :     authentication_type
-
                 * -------------------------------------------------------------------------------
-
                 * `EMAIL`                               : `CREDENTIALS`
-
                 * `EMAIL`                               : `PASSWORD_RESET`
-
                 * `EMAIL`                               : `SINGLE_SIGN_ON`
-
                 * `EMAIL`                               : `MULTI_FACTOR_AUTHENTICATION`
-
                 * `PHONE`                               : `MULTI_FACTOR_AUTHENTICATION`
-
                 * `GOOGLE`                              : `SOCIAL`
-
                 * `FACEBOOK`                            : `SOCIAL`
-
                 * `APPLE`                               : `SOCIAL`
-
                 *                                       : `CREDENTIALS`
               enum:
                 - EMAIL
@@ -3485,13 +3566,18 @@ components:
                 The reason for the failed login attempt in the Partner''s
                 system, related to user failure or Partner''s system failure.
 
-                - `INVALID_CREDENTIALS` - Applicable if the user provided invalid login credentials for this login attempt.
+                - `INVALID_CREDENTIALS` - Applicable if the user provided
+                invalid login credentials for this login attempt.
 
-                - `ACCOUNT_NOT_FOUND` - Applicable if the user attempted to login to an account that doesn't exist.
+                - `ACCOUNT_NOT_FOUND` - Applicable if the user attempted to
+                login to an account that doesn't exist.
 
-                - `VERIFICATION_FAILED` - Applicable if the user failed the verification for this login, or any authentication exception occured in the Partner system for this login attempt.
+                - `VERIFICATION_FAILED` - Applicable if the user failed the
+                verification for this login, or any authentication exception
+                occured in the Partner system for this login attempt.
 
-                - `ACCOUNT_LOCKED` - Applicable if the user attempted to login to an account that is locked.
+                - `ACCOUNT_LOCKED` - Applicable if the user attempted to login
+                to an account that is locked.
               enum:
                 - INVALID_CREDENTIALS
                 - ACCOUNT_NOT_FOUND
@@ -3505,7 +3591,8 @@ components:
         details related to any challenge initiated by the Partner''s system to a
         user before calling Expedia''s Fraud Prevention Service.
 
-        An example is if the Partner''s system sent a Captcha challenge to the user before calling Expedia''s Fraud Prevention Service.
+        An example is if the Partner''s system sent a Captcha challenge to the
+        user before calling Expedia''s Fraud Prevention Service.
       properties:
         session_id:
           type: string
@@ -3539,9 +3626,12 @@ components:
             The kind of challenge served by the Partner''s system to a user
             prior to calling Expedia''s Fraud Prevention Service.
 
-            - `CAPTCHA` - Applicable if the challenge served by the Partner''s system was a Captcha challenge.
+            - `CAPTCHA` - Applicable if the challenge served by the Partner''s
+            system was a Captcha challenge.
 
-            - `TWO_FACTOR` - Applicable if the challenge served by the Partner''s system was a two-factor challenge including (Email verification, One Time Password, Okta, etc).
+            - `TWO_FACTOR` - Applicable if the challenge served by the
+            Partner''s system was a two-factor challenge including (Email
+            verification, One Time Password, Okta, etc).
           enum:
             - CAPTCHA
             - TWO_FACTOR
@@ -3551,7 +3641,8 @@ components:
             The status of the challenge served by the Partner''s system to a
             user before calling Expedia''s Fraud Prevention Service.
 
-            - `SUCCESS` - Applicable if the user successfully passed the challenge.
+            - `SUCCESS` - Applicable if the user successfully passed the
+            challenge.
 
             - `FAILED` - Applicable if the user failed the challenge.
           enum:
